@@ -1,0 +1,5 @@
+src/main/resources
+bin
+out/production/vertx-mod-sendgrid
+out/test/vertx-mod-sendgrid
+build/deps

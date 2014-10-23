@@ -68,19 +68,14 @@ public class SendGridMod extends BusModBase {
 			email.setFrom(sendGridRequest.getFrom());
 			email.setFromName(sendGridRequest.getFromName());
 			
-			//This will replace <%subject%> tag in your template
+			//This will replace <%subject%> tag in your template (if using a template)
 			email.setSubject(sendGridRequest.getSubject());
 			
-			//This will replace <%body%> tag in your template
+			//This will replace <%body%> tag in your template (if using a template)
 			email.setText(sendGridRequest.getBody());
 			
-			
 			sendGridRequest.getSubstitutions().forEach((key, value) -> {
-				email.addSubstitution(key, sendGridRequest
-						.getTos()
-						.stream()
-						.map(to -> value)
-						.toArray(String[]::new));
+				email.addSubstitution(key, value.toArray(new String[0]));
 			});
 			
 			try {

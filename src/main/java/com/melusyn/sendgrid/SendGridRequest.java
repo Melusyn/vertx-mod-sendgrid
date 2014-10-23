@@ -12,7 +12,7 @@ public class SendGridRequest {
 	private List<String> toNames;
 	private String subject;
 	private String body;
-	private Map<String, String> substitutions;
+	private Map<String, List<String>> substitutions;
 
 	public String getFrom() {
 		return from;
@@ -70,11 +70,11 @@ public class SendGridRequest {
 		this.toNames = toNames;
 	}
 
-	public Map<String, String> getSubstitutions() {
+	public Map<String, List<String>> getSubstitutions() {
 		return substitutions;
 	}
 
-	public void setSubstitutions(Map<String, String> substitutions) {
+	public void setSubstitutions(Map<String, List<String>> substitutions) {
 		this.substitutions = substitutions;
 	}
 	

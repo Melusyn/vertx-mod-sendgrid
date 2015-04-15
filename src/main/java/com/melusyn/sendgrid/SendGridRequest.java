@@ -12,9 +12,18 @@ public class SendGridRequest {
 	private List<String> toNames;
 	private String subject;
 	private String body;
+  private Boolean bodyAsHtml;
 	private Map<String, List<String>> substitutions;
 
-	public String getFrom() {
+  public Boolean getBodyAsHtml() {
+    return bodyAsHtml;
+  }
+
+  public void setBodyAsHtml(Boolean bodyAsHtml) {
+    this.bodyAsHtml = bodyAsHtml;
+  }
+
+  public String getFrom() {
 		return from;
 	}
 

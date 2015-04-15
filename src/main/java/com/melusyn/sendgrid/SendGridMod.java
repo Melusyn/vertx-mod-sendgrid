@@ -72,7 +72,11 @@ public class SendGridMod extends BusModBase {
 			email.setSubject(sendGridRequest.getSubject());
 			
 			//This will replace <%body%> tag in your template (if using a template)
-			email.setText(sendGridRequest.getBody());
+      if (sendGridRequest.getBodyAsHtml()) {
+        email.setHtml(sendGridRequest.getBody());
+      } else {
+        email.setText(sendGridRequest.getBody());
+      }
 			
 			sendGridRequest.getSubstitutions().forEach((key, value) -> {
 				email.addSubstitution(key, value.toArray(new String[0]));

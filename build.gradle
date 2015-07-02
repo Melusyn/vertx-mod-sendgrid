@@ -35,7 +35,7 @@ runMod - runs the module. This is similar to executing vertx runmod from the com
 
 pullInDeps - pulls in all dependencies of the module into a nested module directory
 
-uploadArchives - upload the module zip file (and jar if one has been created) to Nexus. You will need to
+uploadArchives - store the module zip file (and jar if one has been created) to Nexus. You will need to
                  configure sonatypeUsername and sonatypePassword in ~/.gradle/gradle.properties.
 
 install - install any jars produced to the local Maven repository (.m2)
@@ -62,7 +62,6 @@ test {
   include 'org/foo/**'
   exclude 'org/boo/**'
   */
-
 }
 
 /*
@@ -74,15 +73,15 @@ def configurePom(def pom) {
     name rootProject.name
     description 'Description of your module here'
     inceptionYear '2013'
-    packaging 'jar'
+    packaging 'zip'
 
     url 'Your project url'
 
     developers {
       developer {
-        id 'developer id (e.g. github username)'
-        name 'developer name'
-        email 'developer email'
+        id 'HugoCrd'
+        name 'Hugo Cordier'
+        email 'hugo@melusyn.com'
       }
     }
 

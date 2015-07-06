@@ -35,7 +35,7 @@ runMod - runs the module. This is similar to executing vertx runmod from the com
 
 pullInDeps - pulls in all dependencies of the module into a nested module directory
 
-uploadArchives - upload the module zip file (and jar if one has been created) to Nexus. You will need to
+uploadArchives - store the module zip file (and jar if one has been created) to Nexus. You will need to
                  configure sonatypeUsername and sonatypePassword in ~/.gradle/gradle.properties.
 
 install - install any jars produced to the local Maven repository (.m2)
@@ -43,18 +43,10 @@ install - install any jars produced to the local Maven repository (.m2)
  */
 
 dependencies {
-  /*
-  Add your module jar dependencies here
-  E.g.
-  compile "com.foo:foo-lib:1.0.1" - for compile time deps - this will end up in your module too!
-  testCompile "com.foo:foo-lib:1.0.1" - for test time deps
-  provided "com.foo:foo-lib:1.0.1" - if you DON'T want it to be packaged in the module zip
-  */
-
-  // If you're creating Groovy compiled verticles you may need the following dependencies
-  provided "org.codehaus.groovy:groovy-all:$groovyVersion"
-  provided "io.vertx:lang-groovy:$groovyLangModVersion@jar"
-  compile "com.sendgrid:sendgrid-java:1.2.1"
+  compile "com.fasterxml.jackson.core:jackson-core:2.4.1.1"
+  compile "com.fasterxml.jackson.core:jackson-annotations:2.4.0"
+  compile "com.fasterxml.jackson.core:jackson-databind:2.4.1.1"
+  compile "com.sendgrid:sendgrid-java:2.2.2"
 }
 
 test {
@@ -62,7 +54,6 @@ test {
   include 'org/foo/**'
   exclude 'org/boo/**'
   */
-
 }
 
 /*
@@ -74,15 +65,15 @@ def configurePom(def pom) {
     name rootProject.name
     description 'Description of your module here'
     inceptionYear '2013'
-    packaging 'jar'
+    packaging 'zip'
 
     url 'Your project url'
 
     developers {
       developer {
-        id 'developer id (e.g. github username)'
-        name 'developer name'
-        email 'developer email'
+        id 'HugoCrd'
+        name 'Hugo Cordier'
+        email 'hugo@melusyn.com'
       }
     }
 

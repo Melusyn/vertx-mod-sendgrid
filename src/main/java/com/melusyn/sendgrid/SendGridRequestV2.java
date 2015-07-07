@@ -2,6 +2,7 @@ package com.melusyn.sendgrid;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class SendGridRequestV2 {
 
@@ -10,9 +11,13 @@ public class SendGridRequestV2 {
   private String from;
   private String fromName;
 
+  private Set<String> ccs;
+  private Set<String> bccs;
+  private String replyTo;
+
   private String subject;
   private String body;
-  private Boolean bodyAsHtml;
+  private boolean bodyAsHtml;
 
   private List<Recipient> recipients;
 
@@ -87,11 +92,11 @@ public class SendGridRequestV2 {
     this.body = body;
   }
 
-  public Boolean getBodyAsHtml() {
+  public boolean getBodyAsHtml() {
     return bodyAsHtml;
   }
 
-  public void setBodyAsHtml(Boolean bodyAsHtml) {
+  public void setBodyAsHtml(boolean bodyAsHtml) {
     this.bodyAsHtml = bodyAsHtml;
   }
 
@@ -101,5 +106,29 @@ public class SendGridRequestV2 {
 
   public void setRecipients(List<Recipient> recipients) {
     this.recipients = recipients;
+  }
+
+  public Set<String> getCcs() {
+    return ccs;
+  }
+
+  public void setCcs(Set<String> ccs) {
+    this.ccs = ccs;
+  }
+
+  public Set<String> getBccs() {
+    return bccs;
+  }
+
+  public void setBccs(Set<String> bccs) {
+    this.bccs = bccs;
+  }
+
+  public String getReplyTo() {
+    return replyTo;
+  }
+
+  public void setReplyTos(String replyTo) {
+    this.replyTo = replyTo;
   }
 }

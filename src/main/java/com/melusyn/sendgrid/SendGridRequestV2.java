@@ -20,6 +20,7 @@ public class SendGridRequestV2 {
   private boolean bodyAsHtml;
 
   private List<Recipient> recipients;
+  private Map<String, String> sections;
 
   public static class Recipient {
     protected String fullName;
@@ -130,5 +131,13 @@ public class SendGridRequestV2 {
 
   public void setReplyTos(String replyTo) {
     this.replyTo = replyTo;
+  }
+
+  public Map<String, String> getSections() {
+    return sections;
+  }
+
+  public void setSections(Map<String, String> sections) {
+    this.sections = sections;
   }
 }

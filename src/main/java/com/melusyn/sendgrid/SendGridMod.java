@@ -159,6 +159,10 @@ public class SendGridMod extends Verticle {
       email.setReplyTo(request.getReplyTo());
     }
 
+    if (request.getSections() != null) {
+      request.getSections().forEach(email::addSection);
+    }
+
     //This will replace <%body%> tag in your template (if using a template)
     if (request.getBodyAsHtml()) {
       email.setHtml(request.getBody());

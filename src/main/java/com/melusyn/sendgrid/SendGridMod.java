@@ -29,12 +29,14 @@ import org.vertx.java.core.logging.Logger;
 import org.vertx.java.core.logging.impl.LoggerFactory;
 import org.vertx.java.platform.Verticle;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@SuppressWarnings("unused")
 public class SendGridMod extends Verticle {
 
   private SendGrid sendgrid;
@@ -185,6 +187,16 @@ public class SendGridMod extends Verticle {
         });
       }
     });
+
+    if (request.getAttachments() != null) {
+      request.getAttachments().forEach((name, attachment) -> {
+        try {
+          email.addAttachment(name, new ByteArrayInputStream(attachment));
+        } catch (IOException ignored) {
+          logger.error("Michel owes a beer to Hugo.", ignored);
+        }
+      });
+    }
 
     substitutions.forEach((key, list) ->
       email.addSubstitution(key, list.toArray(new String[list.size()]))

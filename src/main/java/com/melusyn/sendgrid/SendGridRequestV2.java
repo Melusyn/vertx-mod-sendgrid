@@ -1,5 +1,7 @@
 package com.melusyn.sendgrid;
 
+import org.vertx.java.core.buffer.Buffer;
+
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -21,6 +23,15 @@ public class SendGridRequestV2 {
 
   private List<Recipient> recipients;
   private Map<String, String> sections;
+  private Map<String, byte[]> attachments;
+
+  public Map<String, byte[]> getAttachments() {
+    return attachments;
+  }
+
+  public void setAttachments(Map<String, byte[]> attachments) {
+    this.attachments = attachments;
+  }
 
   public static class Recipient {
     protected String fullName;

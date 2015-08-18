@@ -88,11 +88,11 @@ public class SendGridMod extends Verticle {
     email.setSubject(sendGridRequest.getSubject());
 
     //This will replace <%body%> tag in your template (if using a template)
-    if (sendGridRequest.getBodyAsHtml()) {
+   // if (sendGridRequest.getBodyAsHtml()) {
       email.setHtml(sendGridRequest.getBody());
-    } else {
+   // } else {
       email.setText(sendGridRequest.getBody());
-    }
+   // }
 
     sendGridRequest.getSubstitutions().forEach((key, value) ->
       email.addSubstitution(key, value.toArray(new String[value.size()]))

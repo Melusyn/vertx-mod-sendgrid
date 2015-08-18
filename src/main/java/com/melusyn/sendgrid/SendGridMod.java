@@ -87,12 +87,10 @@ public class SendGridMod extends Verticle {
     //This will replace <%subject%> tag in your template (if using a template)
     email.setSubject(sendGridRequest.getSubject());
 
-    //This will replace <%body%> tag in your template (if using a template)
-   // if (sendGridRequest.getBodyAsHtml()) {
-      email.setHtml(sendGridRequest.getBody());
-   // } else {
-      email.setText(sendGridRequest.getBody());
-   // }
+    if (sendGridRequest.getBodyAsHtml()) {
+    email.setHtml(sendGridRequest.getBody());
+    }
+    email.setText(sendGridRequest.getBody());
 
     sendGridRequest.getSubstitutions().forEach((key, value) ->
       email.addSubstitution(key, value.toArray(new String[value.size()]))
@@ -165,12 +163,10 @@ public class SendGridMod extends Verticle {
       request.getSections().forEach(email::addSection);
     }
 
-    //This will replace <%body%> tag in your template (if using a template)
-    //if (request.getBodyAsHtml()) {
+    if (request.getBodyAsHtml()) {
       email.setHtml(request.getBody());
-    //} else {
-      email.setText(request.getBody());
-    //}
+    }
+    email.setText(request.getBody());
 
     Map<String, List<String>> substitutions = new HashMap<>();
     request.getRecipients().forEach(recipient -> {

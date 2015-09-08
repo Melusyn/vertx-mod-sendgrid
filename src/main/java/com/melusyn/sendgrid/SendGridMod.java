@@ -198,6 +198,11 @@ public class SendGridMod extends Verticle {
       email.addSubstitution(key, list.toArray(new String[list.size()]))
     );
 
+    if (email.getFrom().endsWith("melusyn.com")) {
+      email.addHeader("List-Unsubscribe", "<mailto:unsubscribe@melusyn.com>");
+    } else {
+      email.addHeader("List-Unsubscribe", "<mailto:unsubscribe@setkeeper.com>");
+    }
     try {
       Response response = sendgrid.send(email);
       if (response.getCode() != 200) {

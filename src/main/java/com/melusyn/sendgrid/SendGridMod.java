@@ -44,6 +44,8 @@ public class SendGridMod extends Verticle {
 
   private Logger logger = LoggerFactory.getLogger(getClass());
 
+  private Map<String, Integer> templateSuppressionGroup = new HashMap<>();
+
   @Override
   public void start() {
     super.start();
@@ -52,6 +54,11 @@ public class SendGridMod extends Verticle {
     String address = getOptionalStringConfig("address", "melusyn.sendgrid");
     String sendgridUsername = getMandatoryStringConfig("sendgrid_username");
     String sendgridPassword = getMandatoryStringConfig("sendgrid_password");
+
+    JsonObject suppressionJson = container.config().getObject("suppressions", new JsonObject());
+    for(String templateId : suppressionJson.getFieldNames()) {
+      templateSuppressionGroup.put(templateId, suppressionJson.getInteger(templateId));
+    }
 
     sendgrid = new SendGrid(sendgridUsername, sendgridPassword);
 
@@ -95,6 +102,11 @@ public class SendGridMod extends Verticle {
     sendGridRequest.getSubstitutions().forEach((key, value) ->
       email.addSubstitution(key, value.toArray(new String[value.size()]))
     );
+
+    int suppressionGroupId = templateSuppressionGroup.getOrDefault(sendGridRequest.getTemplateId(), 0);
+    if (suppressionGroupId != 0) {
+      email.setASMGroupId(suppressionGroupId);
+    }
 
     try {
       Response response = sendgrid.send(email);
@@ -197,6 +209,11 @@ public class SendGridMod extends Verticle {
     substitutions.forEach((key, list) ->
       email.addSubstitution(key, list.toArray(new String[list.size()]))
     );
+
+    int suppressionGroupId = templateSuppressionGroup.getOrDefault(request.getTemplateId(), 0);
+    if (suppressionGroupId != 0) {
+      email.setASMGroupId(suppressionGroupId);
+    }
 
     try {
       Response response = sendgrid.send(email);

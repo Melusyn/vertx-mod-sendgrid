@@ -218,8 +218,9 @@ public class SendGridMod extends Verticle {
     try {
       Response response = sendgrid.send(email);
       if (response.getCode() != 200) {
-        logger.error("SendGrid failed and responded with : " + response.getCode() + " - " + response.getMessage());
-        message.fail(response.getCode(), response.getMessage());
+        JsonObject emailJson = new JsonObject(jsonMapper.writeValueAsString(email));
+        logger.error("SendGrid failed and responded with : " + response.getCode() + " - " + response.getMessage() + " with email:" + emailJson.encodePrettily());
+        message.fail(500, response.getMessage());
         return;
       }
 

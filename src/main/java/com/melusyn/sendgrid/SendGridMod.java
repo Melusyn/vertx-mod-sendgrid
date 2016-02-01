@@ -160,11 +160,11 @@ public class SendGridMod extends Verticle {
     email.setSubject(request.getSubject());
 
     if (request.getCcs() != null) {
-      request.getCcs().forEach(email::addCc);
+      request.getCcs().forEach(recipient -> email.addCc(recipient.getEmail()));
     }
 
     if (request.getBccs() != null) {
-      request.getBccs().forEach(email::addBcc);
+      request.getBccs().forEach(recipient -> email.addBcc(recipient.getEmail()));
     }
 
     if (request.getReplyTo() != null) {
@@ -221,6 +221,7 @@ public class SendGridMod extends Verticle {
         JsonObject emailJson = new JsonObject(jsonMapper.writeValueAsString(request));
         logger.error("SendGrid failed and responded with : " + response.getCode() + " - " + response.getMessage() + " with email:" + emailJson.encodePrettily());
         message.fail(500, response.getMessage());
+        logger.warn(message.body().encodePrettily());
         return;
       }
 

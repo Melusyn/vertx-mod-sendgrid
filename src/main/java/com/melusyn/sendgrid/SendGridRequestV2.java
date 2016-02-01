@@ -1,7 +1,5 @@
 package com.melusyn.sendgrid;
 
-import org.vertx.java.core.buffer.Buffer;
-
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -13,8 +11,8 @@ public class SendGridRequestV2 {
   private String from;
   private String fromName;
 
-  private Set<String> ccs;
-  private Set<String> bccs;
+  private Set<Recipient> ccs;
+  private Set<Recipient> bccs;
   private String replyTo;
 
   private String subject;
@@ -120,19 +118,19 @@ public class SendGridRequestV2 {
     this.recipients = recipients;
   }
 
-  public Set<String> getCcs() {
+  public Set<Recipient> getCcs() {
     return ccs;
   }
 
-  public void setCcs(Set<String> ccs) {
+  public void setCcs(Set<Recipient> ccs) {
     this.ccs = ccs;
   }
 
-  public Set<String> getBccs() {
+  public Set<Recipient> getBccs() {
     return bccs;
   }
 
-  public void setBccs(Set<String> bccs) {
+  public void setBccs(Set<Recipient> bccs) {
     this.bccs = bccs;
   }
 

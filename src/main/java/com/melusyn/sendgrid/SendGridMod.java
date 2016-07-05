@@ -35,12 +35,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 @SuppressWarnings("unused")
 public class SendGridMod extends Verticle {
 
   private SendGrid sendgrid;
-  static ObjectMapper jsonMapper = new ObjectMapper();
+  private static ObjectMapper jsonMapper = new ObjectMapper();
+
+  static private final String MELUSYN_MAIL_ID = "mailuuid";
 
   private Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -107,6 +110,11 @@ public class SendGridMod extends Verticle {
     if (suppressionGroupId != 0) {
       email.setASMGroupId(suppressionGroupId);
     }
+
+    sendGridRequest.getContext().forEach(email::addUniqueArg);
+
+    String uuid = UUID.randomUUID().toString();
+    email.addUniqueArg(MELUSYN_MAIL_ID, uuid);
 
     try {
       Response response = sendgrid.send(email);
@@ -214,6 +222,11 @@ public class SendGridMod extends Verticle {
     if (suppressionGroupId != 0) {
       email.setASMGroupId(suppressionGroupId);
     }
+
+    request.getContext().forEach(email::addUniqueArg);
+
+    String uuid = UUID.randomUUID().toString();
+    email.addUniqueArg(MELUSYN_MAIL_ID, uuid);
 
     try {
       Response response = sendgrid.send(email);

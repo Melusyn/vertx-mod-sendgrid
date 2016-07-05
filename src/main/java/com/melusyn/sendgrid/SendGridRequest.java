@@ -1,5 +1,6 @@
 package com.melusyn.sendgrid;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -14,6 +15,8 @@ public class SendGridRequest {
 	private String body;
   private Boolean bodyAsHtml;
 	private Map<String, List<String>> substitutions;
+
+	private Map<String, String> context = new HashMap<>();
 
   public Boolean getBodyAsHtml() {
     return bodyAsHtml;
@@ -86,5 +89,20 @@ public class SendGridRequest {
 	public void setSubstitutions(Map<String, List<String>> substitutions) {
 		this.substitutions = substitutions;
 	}
-	
+
+	public Map<String, String> getContext() {
+		return context;
+	}
+
+	public void setContext(Map<String, String> context) {
+		this.context = context;
+	}
+
+	public <E extends Enum> void addContext(E contextKey, String value) {
+		context.put(contextKey.toString(), value);
+	}
+
+	public void addContext(String contextKey, String value) {
+		context.put(contextKey, value);
+	}
 }

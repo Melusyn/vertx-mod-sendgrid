@@ -1,5 +1,6 @@
 package com.melusyn.sendgrid;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -22,6 +23,8 @@ public class SendGridRequestV2 {
   private List<Recipient> recipients;
   private Map<String, String> sections;
   private Map<String, byte[]> attachments;
+
+  private Map<String, String> context = new HashMap<>();
 
   public Map<String, byte[]> getAttachments() {
     return attachments;
@@ -148,5 +151,21 @@ public class SendGridRequestV2 {
 
   public void setSections(Map<String, String> sections) {
     this.sections = sections;
+  }
+
+  public Map<String, String> getContext() {
+    return context;
+  }
+
+  public void setContext(Map<String, String> context) {
+    this.context = context;
+  }
+
+  public <E extends Enum> void addContext(E contextKey, String value) {
+    context.put(contextKey.toString(), value);
+  }
+
+  public void addContext(String contextKey, String value) {
+    context.put(contextKey, value);
   }
 }

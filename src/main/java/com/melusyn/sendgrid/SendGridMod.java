@@ -31,6 +31,8 @@ import org.vertx.java.platform.Verticle;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -48,6 +50,7 @@ public class SendGridMod extends Verticle {
   private Logger logger = LoggerFactory.getLogger(getClass());
 
   private Map<String, Integer> templateSuppressionGroup = new HashMap<>();
+  private String hostname = "unknown";
 
   @Override
   public void start() {
@@ -59,9 +62,18 @@ public class SendGridMod extends Verticle {
     String sendgridPassword = getMandatoryStringConfig("sendgrid_password");
 
     JsonObject suppressionJson = container.config().getObject("suppressions", new JsonObject());
-    for(String templateId : suppressionJson.getFieldNames()) {
+    for (String templateId : suppressionJson.getFieldNames()) {
       templateSuppressionGroup.put(templateId, suppressionJson.getInteger(templateId));
     }
+
+
+    try {
+      InetAddress ip = InetAddress.getLocalHost();
+      hostname = ip.getHostName();
+    } catch (UnknownHostException e) {
+      e.printStackTrace();
+    }
+
 
     sendgrid = new SendGrid(sendgridUsername, sendgridPassword);
 
@@ -98,7 +110,7 @@ public class SendGridMod extends Verticle {
     email.setSubject(sendGridRequest.getSubject());
 
     if (sendGridRequest.getBodyAsHtml()) {
-    email.setHtml(sendGridRequest.getBody());
+      email.setHtml(sendGridRequest.getBody());
     }
     email.setText(sendGridRequest.getBody());
 
@@ -126,10 +138,10 @@ public class SendGridMod extends Verticle {
       }
 
       JsonObject jResponse = SendGridResponse.instance()
-       .code(response.getCode())
-       .message(response.getMessage())
-       .status(response.getStatus())
-       .toJson();
+        .code(response.getCode())
+        .message(response.getMessage())
+        .status(response.getStatus())
+        .toJson();
 
       logger.debug("SendGrid successfully responded with : " + jResponse.encode());
       message.reply(jResponse);
@@ -227,6 +239,7 @@ public class SendGridMod extends Verticle {
 
     String uuid = UUID.randomUUID().toString();
     email.addUniqueArg(MELUSYN_MAIL_ID, uuid);
+    email.addUniqueArg("HOSTNAME", hostname);
 
     try {
       Response response = sendgrid.send(email);
@@ -239,10 +252,10 @@ public class SendGridMod extends Verticle {
       }
 
       JsonObject jResponse = SendGridResponse.instance()
-       .code(response.getCode())
-       .message(response.getMessage())
-       .status(response.getStatus())
-       .toJson();
+        .code(response.getCode())
+        .message(response.getMessage())
+        .status(response.getStatus())
+        .toJson();
 
       logger.debug("SendGrid successfully responded with : " + jResponse.encode());
       message.reply(jResponse);
